@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "index": "tsx src/naiverag/index-manuals.ts",
+    "retrieve": "tsx src/naiverag/retrieve.ts",
+    "ask": "tsx src/naiverag/ask.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "@typesafe-ai/sdk": "^0.7.0",
     "dotenv": "^18.0.9"
