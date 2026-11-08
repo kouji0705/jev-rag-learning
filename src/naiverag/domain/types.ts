@@ -20,3 +20,12 @@ export type VectorIndex = {
   createdAt: string;
   chunks: IndexedChunk[];
 };
+
+export type Hit = {
+  id: string;
+  source: string;
+  title: string;
+  heading: string;
+  text: string;
+  score: number;
+};
