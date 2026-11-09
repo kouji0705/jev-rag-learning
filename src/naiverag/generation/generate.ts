@@ -5,9 +5,15 @@ export type ChatMessage = {
   content: string;
 };
 
+export type GeneratedAnswer = {
+  text: string;
+  promptTokens: number;
+};
+
 export type Generator = {
   readonly model: string;
   generate(messages: readonly ChatMessage[]): Promise<string>;
+  complete(messages: readonly ChatMessage[]): Promise<GeneratedAnswer>;
 };
 
 const SYSTEM_PROMPT = [
@@ -36,5 +42,20 @@ export async function generateAnswer(options: {
   if (options.hits.length === 0) {
     throw new Error("検索結果がありません");
   }
-  return options.generator.generate(buildMessages(query, options.hits));
+  return (await generateAnswerWithUsage(options)).text;
+}
+
+export async function generateAnswerWithUsage(options: {
+  generator: Generator;
+  query: string;
+  hits: readonly Hit[];
+}): Promise<GeneratedAnswer> {
+  const query = options.query.trim();
+  if (!query) {
+    throw new Error("質問が空です");
+  }
+  if (options.hits.length === 0) {
+    throw new Error("検索結果がありません");
+  }
+  return options.generator.complete(buildMessages(query, options.hits));
 }
