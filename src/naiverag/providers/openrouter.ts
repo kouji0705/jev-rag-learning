@@ -18,6 +18,7 @@ type EmbeddingResponse = ApiErrorBody & {
 
 type ChatResponse = ApiErrorBody & {
   choices?: { message?: { content?: unknown } }[];
+  usage?: { prompt_tokens?: number };
 };
 
 export function createOpenRouterEmbedder(options: {
@@ -79,9 +80,7 @@ export function createOpenRouterGenerator(options: {
 }): Generator {
   const baseUrl = (options.baseUrl ?? DEFAULT_BASE_URL).replace(/\/$/, "");
 
-  return {
-    model: options.model,
-    async generate(messages) {
+  const complete = async (messages: Parameters<Generator["complete"]>[0]) => {
       const response = await fetch(`${baseUrl}/chat/completions`, {
         method: "POST",
         headers: {
@@ -108,12 +107,17 @@ export function createOpenRouterGenerator(options: {
         throw new Error(`OpenRouter chat に失敗しました (${response.status}): ${errorMessage(body)}`);
       }
 
-      const answer = messageText(body.choices?.[0]?.message?.content);
-      if (!answer) {
+      const text = messageText(body.choices?.[0]?.message?.content);
+      if (!text) {
         throw new Error("OpenRouter chat の回答が空です");
       }
-      return answer;
-    },
+      return { text, promptTokens: body.usage?.prompt_tokens ?? 0 };
+    };
+
+  return {
+    model: options.model,
+    generate: async (messages) => (await complete(messages)).text,
+    complete,
   };
 }
 
