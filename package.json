@@ -10,6 +10,7 @@
     "rerank": "tsx src/rerenking/compare.ts",
     "filter": "tsx src/filtering/compare.ts",
     "adapt": "tsx src/adaptiverag/compare.ts",
+    "crag": "tsx src/correctiverag/compare.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
