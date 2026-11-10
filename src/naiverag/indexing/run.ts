@@ -17,7 +17,7 @@ export async function indexManuals(options: {
 
   const chunks = chunkManuals(manuals);
   if (chunks.length === 0) {
-    throw new Error("チャンクが 0 件です。マニュアルに ## の節があるか確認してください");
+    throw new Error("チャンクが 0 件です。マニュアルに ### の節があるか確認してください");
   }
 
   const embeddings = await options.embedder.embed(chunks.map((chunk) => chunk.text));

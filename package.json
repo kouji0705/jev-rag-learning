@@ -12,6 +12,7 @@
     "adapt": "tsx src/adaptiverag/compare.ts",
     "crag": "tsx src/correctiverag/compare.ts",
     "selfrag": "tsx src/selfrag/compare.ts",
+    "decision": "tsx src/decisionrag/compare.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

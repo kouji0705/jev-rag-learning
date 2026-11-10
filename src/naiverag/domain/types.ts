@@ -7,6 +7,7 @@ export type Chunk = {
   id: string;
   source: string;
   title: string;
+  group: string;
   heading: string;
   text: string;
 };
